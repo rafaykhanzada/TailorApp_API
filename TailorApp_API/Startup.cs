@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TailorApp_API.DataContext;
+using TailorApp_API.Helpers;
 
 namespace TailorApp_API
 {
@@ -29,6 +30,7 @@ namespace TailorApp_API
         {
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            new DependencyRegistration(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

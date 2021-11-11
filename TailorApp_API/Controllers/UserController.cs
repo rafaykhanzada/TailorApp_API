@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 
 namespace TailorApp_API.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class UserController : ControllerBase
     {
-        public string Index()
-        {
-            return "hello";
-        }
     }
 }
