@@ -15,5 +15,6 @@ namespace DataAccessLayer.Common
         public DateTime UpdatedOn { get; set; }
         public DateTime? DeletedOn { get; set; }
         public string DeletedBy { get; set; }
+        public bool IsAllow { get; set; }
     }
 }

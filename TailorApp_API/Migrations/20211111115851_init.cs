@@ -8,7 +8,7 @@ namespace TailorApp_API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "tblCategory",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -17,13 +17,14 @@ namespace TailorApp_API.Migrations
                     UpdatedOn = table.Column<DateTime>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     DeletedBy = table.Column<string>(nullable: true),
+                    IsAllow = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_tblCategory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,6 +37,7 @@ namespace TailorApp_API.Migrations
                     UpdatedOn = table.Column<DateTime>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     DeletedBy = table.Column<string>(nullable: true),
+                    IsAllow = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -61,6 +63,7 @@ namespace TailorApp_API.Migrations
                     UpdatedOn = table.Column<DateTime>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     DeletedBy = table.Column<string>(nullable: true),
+                    IsAllow = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     short_description = table.Column<string>(nullable: true),
                     long_description = table.Column<string>(nullable: true),
@@ -74,9 +77,9 @@ namespace TailorApp_API.Migrations
                 {
                     table.PrimaryKey("PK_tblProduct", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tblProduct_Category_CategoryId",
+                        name: "FK_tblProduct_tblCategory_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "tblCategory",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -96,7 +99,7 @@ namespace TailorApp_API.Migrations
                 name: "tblUser");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "tblCategory");
         }
     }
 }

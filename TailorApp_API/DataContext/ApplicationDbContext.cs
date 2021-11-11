@@ -20,13 +20,14 @@ namespace TailorApp_API.DataContext
 
         public DbSet<User> User { get; set; }
         public DbSet<Product> Product { get; set; }
-
+        public DbSet<Category> Category { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<User>().ToTable($"tbl{nameof(User)}");
             builder.Entity<Product>().ToTable($"tbl{nameof(Product)}");
+            builder.Entity<Category>().ToTable($"tbl{nameof(Category)}");
         }
 
         }

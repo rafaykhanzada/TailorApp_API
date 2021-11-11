@@ -1,5 +1,4 @@
 ﻿using DataAccessLayer;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +7,10 @@ using TailorApp_API.DataContext;
 
 namespace TailorApp_API.Repository
 {
-    public class UserRepository : RepositoryBase<User>, IUserRepository
+    public class ProductRepository:RepositoryBase<Product>,IProductRepository
     {
-        public UserRepository(ApplicationDbContext context) : base(context)
+        public ProductRepository(ApplicationDbContext context) : base(context)
         {
         }
-
     }
 }

@@ -12,6 +12,7 @@ namespace TailorApp_API.Helpers
         public DependencyRegistration(IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }
