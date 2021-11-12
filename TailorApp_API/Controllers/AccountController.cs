@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace TailorApp_API.Controllers
             _userManager = userManager;
         }
         [HttpPost("signup")]
+        [AllowAnonymous]
         public async Task<IdentityResult> SignUp([FromBody] SignUpModel model)
         {
             var user = new User()
@@ -41,10 +43,6 @@ namespace TailorApp_API.Controllers
             }
             return null;
         }
-        [HttpGet("getdata")]
-        public string getdata()
-        {
-            return "heelo";
-        }
+        
     }
 }
