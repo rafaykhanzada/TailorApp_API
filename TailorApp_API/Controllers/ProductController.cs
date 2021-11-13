@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace TailorApp_API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
@@ -18,7 +20,7 @@ namespace TailorApp_API.Controllers
         {
             _productRepository = productRepository;
         }
-        [Route("allproducts")]
+
         public ResponseHelper GetAllProduct()
         {
             var data = _productRepository.GetAll();

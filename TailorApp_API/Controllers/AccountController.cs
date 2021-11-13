@@ -17,32 +17,34 @@ namespace TailorApp_API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public AccountController(UserManager<User> userManager)
+        public AccountController(IUserRepository userRepository)
         {
-            _userManager = userManager;
+            _userRepository = userRepository;
         }
         [HttpPost("signup")]
         [AllowAnonymous]
-        public async Task<IdentityResult> SignUp([FromBody] SignUpModel model)
+        public async Task<IActionResult> SignUpAsync([FromBody] SignUpModel model)
         {
-            var user = new User()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Address = model.Address,
-                Country = model.Country,
-                Email = model.Email,
-                UserName = model.Email
-            };
-            var result = await _userManager.CreateAsync(user,model.Password);
+            var result = await _userRepository.SignUpAsync(model);
             if (result.Succeeded)
             {
-                return result;
+                return Ok(result);
             }
             return null;
         }
-        
+        [HttpPost("signin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SignInAsync([FromBody] SignInModel model)
+        {
+            var result = await _userRepository.SignInAsync(model);
+            if (String.IsNullOrEmpty(result))
+            {
+                return Unauthorized();
+            }
+            return Ok(result);
+        }
+
     }
 }

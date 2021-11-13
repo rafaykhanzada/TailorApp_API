@@ -73,11 +73,11 @@ namespace TailorApp_API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseRouting();
+            app.UseAuthorization();
             app.UseCors();
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
