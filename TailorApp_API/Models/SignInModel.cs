@@ -8,10 +8,10 @@ namespace TailorApp_API.Models
 {
     public class SignInModel
     {
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "Email is Required"), EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; }
-        public bool remember { get; set; }
+        public bool Remember { get; set; }
     }
 }

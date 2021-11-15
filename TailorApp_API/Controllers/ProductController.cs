@@ -21,10 +21,10 @@ namespace TailorApp_API.Controllers
             _productRepository = productRepository;
         }
 
-        public ResponseHelper GetAllProduct()
+        public IActionResult GetAllProduct()
         {
             var data = _productRepository.GetAll();
-            return new ResponseHelper(1, data, new ErrorDef());
+            return Ok(new ResponseHelper(1, data, new ErrorDef()));
         }
     }
 }

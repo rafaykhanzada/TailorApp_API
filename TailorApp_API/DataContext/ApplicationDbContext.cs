@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace TailorApp_API.DataContext
 {
@@ -29,7 +30,13 @@ namespace TailorApp_API.DataContext
             builder.Entity<User>().ToTable($"tbl{nameof(User)}");
             builder.Entity<Product>().ToTable($"tbl{nameof(Product)}");
             builder.Entity<Category>().ToTable($"tbl{nameof(Category)}");
-        }
+            builder.Entity<User>().Property(u => u.CustomerId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+          
+
+           
 
         }
+
+    }
 }

@@ -14,6 +14,11 @@ namespace TailorApp_API.Helpers
             DataAlreadyExist = 3,
             InvalidData = 4,
             Exception = 5
-        }
+        }       
+    }
+    public static class UserRoles
+    {
+        public const string Admin = "Admin";
+        public const string User = "User";
     }
 }
