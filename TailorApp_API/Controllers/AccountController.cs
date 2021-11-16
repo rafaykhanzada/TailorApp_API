@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TailorApp_API.DataContext;
+using TailorApp_API.Helpers;
 using TailorApp_API.Models;
 using TailorApp_API.Repository;
 
@@ -30,9 +31,9 @@ namespace TailorApp_API.Controllers
             var result = await _userRepository.SignUpAsync(model);
             if (result.Succeeded)
             {
-                return Ok(result);
+                return Ok(new ResponseHelper(1, result, new ErrorDef()));
             }
-            return null;
+            return Ok(new ResponseHelper(0, new object(), new ErrorDef((int) EnumHelper.ErrorEnums.NoRecordFound,"User Not Found","Please Create Account")));
         }
         [HttpPost("signin")]
         [AllowAnonymous]
@@ -43,7 +44,7 @@ namespace TailorApp_API.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(result);
+            return Ok(new ResponseHelper(1, result, new ErrorDef()));
         }
         [HttpPost("adminrole")]
         [Authorize(Roles = "Admin")]
@@ -52,7 +53,7 @@ namespace TailorApp_API.Controllers
             var user = await _userRepository.FindByIdAsync(model.UserId);
             if (user != null)
                 await _userRepository.AddRoleAsync(user, "Admin");
-            return Ok(new IdentityResult().Succeeded);
+            return Ok(new ResponseHelper(1,new IdentityResult().Succeeded,new ErrorDef()));
         }
         [HttpPost("userrole")]
         public async Task<IActionResult> UserRoleAsync([FromBody] UserRolesModel model)
@@ -60,7 +61,7 @@ namespace TailorApp_API.Controllers
             var user = await _userRepository.FindByIdAsync(model.UserId);
             if (user != null)
                 await _userRepository.AddRoleAsync(user, model.Role);
-            return Ok(new IdentityResult().Succeeded);
+            return Ok(new ResponseHelper(1, new IdentityResult().Succeeded, new ErrorDef()));
         }
 
     }

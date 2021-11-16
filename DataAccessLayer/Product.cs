@@ -12,7 +12,7 @@ namespace DataAccessLayer
         public string short_description { get; set; }
         public string long_description { get; set; }
         public int ratings { get; set; }
-        public double prince { get; set; }
+        public double price { get; set; }
         public string SKU { get; set; }
         [ForeignKey("Category_Id")]
         public int CategoryId { get; set; }

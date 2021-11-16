@@ -19,12 +19,14 @@ namespace TailorApp_API.Controllers
         {
             _productRepository = productRepository;
         }
-        [Authorize(Roles="User")]
-
+        [Authorize(Roles="User,Admin")]
         public IActionResult GetAllProduct()
         {
             var data = _productRepository.GetAll();
-            return Ok(new ResponseHelper(1, data, new ErrorDef()));
+            if (data.Count()==0)
+                return Ok(new ResponseHelper(1, data, new ErrorDef()));
+            else
+                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Products Not Found", "Please Add Some Products")));
         }
     }
 }
