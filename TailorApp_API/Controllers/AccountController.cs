@@ -46,7 +46,7 @@ namespace TailorApp_API.Controllers
             return Ok(result);
         }
         [HttpPost("adminrole")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdminRoleAsync([FromBody] UserRolesModel model)
         {
             var user = await _userRepository.FindByIdAsync(model.UserId);
@@ -54,15 +54,14 @@ namespace TailorApp_API.Controllers
                 await _userRepository.AddRoleAsync(user, "Admin");
             return Ok(new IdentityResult().Succeeded);
         }
-        //[HttpPost("userrole")]
-        //[Authorize]
-        //public async Task<IActionResult> UserRoleAsync([FromBody] UserRolesModel model)
-        //{
-        //    var user = await _userRepository.FindByIdAsync(model.UserId);
-        //    if (user != null)
-        //        await _userRepository.AddRoleAsync(user, model.Role);
-        //    return Ok(new IdentityResult().Succeeded);
-        //}
+        [HttpPost("userrole")]
+        public async Task<IActionResult> UserRoleAsync([FromBody] UserRolesModel model)
+        {
+            var user = await _userRepository.FindByIdAsync(model.UserId);
+            if (user != null)
+                await _userRepository.AddRoleAsync(user, model.Role);
+            return Ok(new IdentityResult().Succeeded);
+        }
 
     }
 }

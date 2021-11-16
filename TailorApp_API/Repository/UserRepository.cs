@@ -46,7 +46,7 @@ namespace TailorApp_API.Repository
             {
                 await _userManager.CreateAsync(user, model.Password);
                 await CreateRoleAsync();
-                await _userManager.GetRolesAsync(user);
+                await _userManager.AddToRoleAsync(user,UserRoles.User);
             }
             return new IdentityResult();
         }
@@ -57,10 +57,18 @@ namespace TailorApp_API.Repository
             {
                 return null;
             }
+            var userType = await _userManager.FindByNameAsync(model.Email);
+            var Type = await _userManager.GetRolesAsync(userType);
+            var claimType = new Claim("role", "User");
+            if (Type.Contains("Admin"))
+            {
+                claimType = new Claim("role", "Admin");
+            }
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name,model.Email),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+                claimType
             };
             var authSigninKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]));
             var token = new JwtSecurityToken(

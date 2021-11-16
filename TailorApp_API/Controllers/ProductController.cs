@@ -12,7 +12,6 @@ namespace TailorApp_API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
@@ -20,6 +19,7 @@ namespace TailorApp_API.Controllers
         {
             _productRepository = productRepository;
         }
+        [Authorize(Roles="User")]
 
         public IActionResult GetAllProduct()
         {
