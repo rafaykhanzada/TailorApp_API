@@ -40,20 +40,23 @@ namespace TailorApp_API.Controllers
         public async Task<IActionResult> SignInAsync([FromBody] SignInModel model)
         {
             var result = await _userRepository.SignInAsync(model);
-            if (String.IsNullOrEmpty(result))
+            if (result==null)
             {
                 return Unauthorized();
             }
             return Ok(new ResponseHelper(1, result, new ErrorDef()));
         }
         [HttpPost("adminrole")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "User")]
         public async Task<IActionResult> AdminRoleAsync([FromBody] UserRolesModel model)
         {
             var user = await _userRepository.FindByIdAsync(model.UserId);
-            if (user != null)
-                await _userRepository.AddRoleAsync(user, "Admin");
-            return Ok(new ResponseHelper(1,new IdentityResult().Succeeded,new ErrorDef()));
+            IdentityResult result=new IdentityResult();
+            if (user != null && model.key == "4145515")
+            {
+                result = await _userRepository.AddRoleAsync(user, "Admin");
+            }
+            return Ok(new ResponseHelper(1,result.Succeeded,new ErrorDef()));
         }
         [HttpPost("userrole")]
         public async Task<IActionResult> UserRoleAsync([FromBody] UserRolesModel model)

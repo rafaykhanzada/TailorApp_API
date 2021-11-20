@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TailorApp_API.DataContext;
+using TailorApp_API.Factory;
 using TailorApp_API.Helpers;
 using TailorApp_API.Models;
 
@@ -46,19 +47,26 @@ namespace TailorApp_API.Repository
             {
                 await _userManager.CreateAsync(user, model.Password);
                 await CreateRoleAsync();
-                await _userManager.AddToRoleAsync(user,UserRoles.User);
+                //await _userManager.AddToRoleAsync(user,UserRoles.User);
             }
             return new IdentityResult();
         }
-        public async Task<String> SignInAsync(SignInModel model)
+        public async Task<Auth> SignInAsync(SignInModel model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            Auth UserJWT = new Auth();
             if (!result.Succeeded)
             {
                 return null;
             }
             var userType = await _userManager.FindByNameAsync(model.Email);
+            if (userType!=null)
+            {
+                UserJWT = AuthModelFactory.GetAuthModel(userType);
+               
+            }
             var Type = await _userManager.GetRolesAsync(userType);
+            UserJWT.Roles = Type;
             var claimType = new Claim("role", "User");
             if (Type.Contains("Admin"))
             {
@@ -77,7 +85,8 @@ namespace TailorApp_API.Repository
                 expires: DateTime.Now.AddDays(1),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256Signature));
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            UserJWT.JWT= new JwtSecurityTokenHandler().WriteToken(token);
+            return UserJWT;
         }
 
         public async Task<IdentityResult> CreateRoleAsync()

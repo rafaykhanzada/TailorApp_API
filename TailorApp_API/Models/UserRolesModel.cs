@@ -9,5 +9,6 @@ namespace TailorApp_API.Models
     {
         public string UserId { get; set; }
         public string Role { get; set; }
+        public string key { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace TailorApp_API.Repository
     public interface IUserRepository: IRepositoryBase<User>
     {
         public Task<IdentityResult> SignUpAsync(SignUpModel model);
-        public Task<String> SignInAsync(SignInModel model);
+        public Task<Auth> SignInAsync(SignInModel model);
         public Task<IdentityResult> CreateRoleAsync();
         public Task<IdentityResult> AddRoleAsync(User user, String role);
         public Task<User> FindByIdAsync(String Id);
